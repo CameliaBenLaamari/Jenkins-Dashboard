@@ -1,4 +1,7 @@
 import './App.css';
+import Dashboard from './Dashboard';
+import Footer from './Footer';
+import Sidebar from './Sidebar';
 
 function App() {
 
@@ -13,13 +16,17 @@ function App() {
     redirect: 'follow',
   };
 
-  fetch("http://localhost:8081/jenkins/api/json", requestOptions)
+  fetch("http://localhost:8080/jenkins/api/json", requestOptions)
     .then(response => response.json())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
 
   return (
-    <div></div>
+    <div style={{ backgroundColor: 'transparent' }}>
+      <Sidebar />
+      <Dashboard />
+      <Footer />
+    </div>
   );
 }
 
