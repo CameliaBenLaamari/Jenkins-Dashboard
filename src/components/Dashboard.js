@@ -3,8 +3,11 @@ import "@progress/kendo-theme-material/dist/all.css";
 import { TileLayout } from "@progress/kendo-react-layout";
 import { useState } from "react";
 
+// Retrieve the Jenkins data from the browser's local storage and parse it into JSON format
+const data = JSON.parse(localStorage.getItem('userData'));
+
 const WidgetOne = () => <div>Widget one</div>;
-const WidgetTwo = () => <div>Widget two</div>;
+const WidgetTwo = () => <div>{data["numExecutors"]}</div>;
 
 const initialPositions = [
     {

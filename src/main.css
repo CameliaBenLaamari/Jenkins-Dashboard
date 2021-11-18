@@ -1,0 +1,213 @@
+@font-face {
+  font-family: 'TT Commons';
+  src: url('webfonts/TT-Commons/TT Commons Thin.otf');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'TT Commons';
+  src: url('webfonts/TT-Commons/TT Commons ExtraLight.otf');
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'TT Commons';
+  src: url('webfonts/TT-Commons/TT Commons Light.otf');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'TT Commons';
+  src: url('webfonts/TT-Commons/TT Commons Regular.otf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'TT Commons';
+  src: url('webfonts/TT-Commons/TT Commons Medium.otf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'TT Commons';
+  src: url('webfonts/TT-Commons/TT Commons DemiBold.otf');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'TT Commons';
+  src: url('webfonts/TT-Commons/TT Commons Bold.otf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'TT Commons';
+  src: url('webfonts/TT-Commons/TT Commons ExtraBold.otf');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'TT Commons';
+  src: url('webfonts/TT-Commons/TT Commons Black.otf');
+  font-weight: 900;
+}
+
+*, body{
+  margin: 0;
+  font-family: 'TT Commons', sans-serif;
+  color: #1A1A1D;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body{
+  text-align: center;
+}
+
+html{
+  position: relative;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+h1{
+  font-weight: 600;
+  text-align: left;
+  font-size: 5vh;
+}
+
+h2{
+  font-weight: 300;
+  font-size: 2.2vh;
+  color: #b1b4be;
+  text-align: left;
+}
+
+.logo{
+  margin-top: 2vh;
+  height: 10vh;
+}
+
+#sidebar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 15vh;
+  height: 100%;
+  padding: 20px 0;
+  transition: all 0.5s ease;
+  background-color: white;
+  border-right: 1px solid rgba(128, 128, 128, 0.15);
+}
+
+.sidebar-logo{
+  height: 7vh;
+}
+
+.column{
+  height: 80%;
+  padding: 2vh;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+}
+
+ul{
+  list-style: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 50%;
+  padding: 5vh;
+}
+
+li{
+  margin: auto;
+  text-align: center;
+}
+
+.k-tilelayout.k-grid-flow-col.tileLayout {
+  background-color: transparent;
+  margin-top: 5vh;
+  margin-bottom: 15vh;
+}
+
+#footer{
+  position: absolute;
+  bottom: 0;
+  left: 15vh;
+  right: 0;
+  transition: all 0.5s ease;
+  background-color: #1A1A1D;
+  margin-top: 5vh;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 5vh;
+  font-weight: 300;
+}
+
+#dashboard{
+  margin-left: 15vh;
+  padding: 5vh 10vh 5vh 10vh;
+  background-color: #f7f9fb;
+}
+
+.widget{
+  width: 20vh;
+  background-color: black;
+  color: white;
+  padding: 2vh;
+}
+
+h5.k-card-title{
+  font-family: 'TT Commons', sans-serif;
+}
+
+.k-tilelayout-item.k-card.k-cursor-grab{
+  border: none;
+  border-radius: 1vh;
+  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px; */
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+
+.k-tilelayout-item-header.k-card-header{
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+}
+
+.box{
+  margin-top: 30vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5vh;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 40vh;
+  height: 33vh;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+
+.MuiInputLabel-root
+.MuiInputLabel-formControl
+.MuiInputLabel-animated
+.MuiInputLabel-outlined
+.MuiFormLabel-rootMuiFormLabel-colorPrimary
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
+  text-align: left;
+  font-family: 'TT Commons', sans-serif;
+}
+
+.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+  font-family: 'TT Commons', sans-serif;
+}
