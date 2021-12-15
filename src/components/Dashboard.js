@@ -8,15 +8,15 @@ import { Chart, ChartSeries, ChartSeriesItem } from '@progress/kendo-react-chart
 // Retrieve the Jenkins data from the browser's local storage and parse it into JSON format
 const data = JSON.parse(localStorage.getItem('userData'));
 const data1 = [1, 2, 3, 5, 8, 13];
-const data2=[1, 2, 3,6 ,10, 20];
-    const ChartContainer = () => (
+const data2 = [1, 2, 3, 6, 10, 20];
+const ChartContainer = () => (
     <Chart>
         <ChartSeries>
-        <ChartSeriesItem type="line" data={data1} name="Fibonacci" />
-        <ChartSeriesItem type="line" data={data2} name="2" />
+            <ChartSeriesItem type="line" data={data1} name="Fibonacci" />
+            <ChartSeriesItem type="line" data={data2} name="2" />
         </ChartSeries>
     </Chart>
-    );
+);
 
 
 
@@ -45,18 +45,18 @@ const initialPositions = [
         rowSpan: 2,
     },
     {
-        col: 3,
+        col: 1,
         colSpan: 1,
         rowSpan: 1,
     },
     {
-        col: 1,
+        col: 3,
         colSpan: 2,
         rowSpan: 2,
     },
 ];
- // Provide some sample data for the Chart
- 
+// Provide some sample data for the Chart
+
 function Dashboard() {
 
     const [positions, setPositions] = useState(initialPositions);
@@ -79,7 +79,7 @@ function Dashboard() {
     const handleReposition = e => {
         setPositions(e.value);
     };
-    
+
     return (
         <div id="dashboard">
             <h1>Jenkins Dashboard</h1>
@@ -93,7 +93,7 @@ function Dashboard() {
                 items={widgets}
                 onReposition={handleReposition}
             />
-            
+
         </div>
     )
 
