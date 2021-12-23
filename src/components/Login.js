@@ -46,8 +46,8 @@ function Login() {
     return (
         <div className="box">
             <img src="jenkins.png" alt="Jenkins Logo" style={{ width: '7vh', marginLeft: 'auto', marginRight: 'auto', marginBottom: '3vh' }} />
-            <Input label="Username" size="small" onChange={handleUsername} className="input" />
-            <Input label="Password" size="small" onChange={handlePassword} className="input"
+            <Input label="Username" size="small" onChange={handleUsername} className="input" placeholder='Username' />
+            <Input label="Password" size="small" onChange={handlePassword} className="input" placeholder='Password'
                 type={values.showPassword ? "text" : "password"}
                 onChange={handlePasswordChange("password")}
                 value={values.password}
