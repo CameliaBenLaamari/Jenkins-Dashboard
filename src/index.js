@@ -3,10 +3,20 @@ import ReactDOM from 'react-dom';
 import './main.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
+import { ThemeProvider } from '@mui/system';
+import { createTheme } from '@mui/material';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'TT Commons',
+  }
+})
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

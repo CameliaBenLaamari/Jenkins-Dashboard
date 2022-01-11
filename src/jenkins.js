@@ -1,14 +1,16 @@
+import { setJenkins } from "./firebase";
+
 var myHeaders = new Headers();
 
-export default function configureHeaders(username, password) {
+function configureHeaders(username, password) {
     // Login using the basic Auth credentials
     myHeaders.append("Authorization", "Basic " + btoa(username + ":" + password));
     myHeaders.append("Content-Type", "application/json");
 }
 
-export function fetchData(username, password) {
+export async function fetchData(uid, jenkinsUsername, jenkinsPassword) {
 
-    configureHeaders(username, password)
+    configureHeaders(jenkinsUsername, jenkinsPassword);
 
     var requestOptions = {
         method: 'GET',
@@ -16,32 +18,41 @@ export function fetchData(username, password) {
         redirect: 'follow',
     };
 
-    fetch("http://localhost:8080/jenkins/api/json", requestOptions)
+    function fetchJobs(job) {
+        const data = fetch("http://localhost:8080/jenkins/job/" + job['name'] + "/api/json", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                return result;
+            })
+        return data;
+    }
+
+    function fetchBuilds(build) {
+        const data = fetch(build['url'] + "/api/json", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                return result;
+            });
+        return data;
+    }
+
+    const data = await fetch("http://localhost:8080/jenkins/api/json", requestOptions)
         .then(response => response.json())
         .then(result => {
-            // Store the data fetched by the Jenkins API into the browser's local storage
-            localStorage.setItem('userData', JSON.stringify(result));
-        })
-        .catch(error => console.log('error', error));
+            return result;
+        });
+    console.log("data", data);
 
-}
+    let jobs = data['jobs'];
+    for (let i = 0; i < jobs.length; i++) {
+        jobs[i] = await fetchJobs(jobs[i]);
+        console.log("job" + i, jobs[i]);
+        for (let j = 0; j < jobs[i]['builds'].length; j++) {
+            jobs[i]['builds'][j] = await fetchBuilds(jobs[i]['builds'][j]);
+            console.log("job" + i + "/build" + j, jobs[i]['builds'][j]);
+        }
+    }
+    console.log(jobs);
 
-export function fetchBuilds(jobName) {
-
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
-
-    fetch("http://localhost:8080/jenkins/job/" + jobName + "/api/json", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            // Store the data fetched by the Jenkins API into the browser's local storage
-            localStorage.setItem(jobName, JSON.stringify(result));
-        })
-        .catch(error => console.log('error', error));
-
-    return JSON.parse(localStorage.getItem(jobName));
-
+    setJenkins(uid, data, jobs);
 }
