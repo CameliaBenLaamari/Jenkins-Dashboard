@@ -92,6 +92,12 @@ h2{
   height: 10vh;
 }
 
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 #sidebar{
   position: fixed;
   top: 0;
@@ -240,16 +246,22 @@ h5.k-card-title{
 }
 
 .jobs{
-  overflow-y: scroll;
-  overflow-x: scroll;
-  margin: auto;
-  padding: 2vh;
   text-align: left;
+  padding: 2vh;
 }
 
 .builds{
   text-align: left;
   margin-bottom: 2vh;
+}
+
+span.k-in{
+  font-size: 2vh;
+}
+
+#joblist{
+  overflow-y: scroll;
+  max-height: 20vh;
 }
 
 #job-name{

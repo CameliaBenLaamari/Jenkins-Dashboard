@@ -35,9 +35,9 @@ export async function getUser(uid) {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-        console.log("User data:", docSnap.data());
+        return docSnap.data();
     } else {
-        console.log("No such user!");
+        return;
     }
 }
 
@@ -58,6 +58,32 @@ export async function getJenkins(uid) {
         const data = docSnap.data().data;
         const jobs = docSnap.data().jobs;
         return { data, jobs };
+    } else {
+        console.log("No such document!");
+        return;
+    }
+}
+
+export async function setWidget(uid, item, position) {
+    const docRef = doc(db, "widgets", uid);
+    const { items, positions } = await getWidgets(uid);
+    items.push(item);
+    positions.push(position);
+    const docData = {
+        items: items,
+        positions: positions
+    }
+    await setDoc(docRef, docData);
+}
+
+export async function getWidgets(uid) {
+    const docRef = doc(db, "widgets", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        const items = docSnap.data().items;
+        const positions = docSnap.data().positions;
+        return { items, positions };
     } else {
         console.log("No such document!");
         return;

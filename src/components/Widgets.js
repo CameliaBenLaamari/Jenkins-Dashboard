@@ -1,31 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import "@progress/kendo-theme-material/dist/all.css";
 import { Chart, ChartCategoryAxis, ChartCategoryAxisItem, ChartSeries, ChartSeriesItem } from '@progress/kendo-react-charts';
-import { TileLayout } from "@progress/kendo-react-layout";
-import { useState } from "react";
-import { auth, getJenkins, getUser } from '../firebase';
+import { setWidget } from '../firebase';
 import 'hammerjs';
 import AddWidget from './AddWidget';
 import ListJobs from './ListJobs';
 
-function Dashboard() {
-
-    const [user, setUser] = useState({});
-    const [data, setData] = useState({});
-    const [jobs, setJobs] = useState({});
-
-    useEffect(() => {
-        async function getData(uid) {
-            getUser(uid).then((result) => {
-                setUser(result);
-            })
-            getJenkins(uid).then((result) => {
-                setData(result['data']);
-                setJobs(result['jobs']);
-            })
-        }
-        getData(auth.currentUser.uid);
-    }, []);
+export default function configureWidgets(uid, data, jobs) {
 
     const initialPositions = [
         {
@@ -59,8 +40,6 @@ function Dashboard() {
             rowSpan: 1
         }
     ];
-
-    const [positions, setPositions] = useState(initialPositions);
 
     let durations = [];
     let estimatedDurations = [];
@@ -133,32 +112,7 @@ function Dashboard() {
         }
     ];
 
-
-    const handleReposition = e => {
-        setPositions(e.value);
-    };
-
-    return (
-        <div id="dashboard">
-            <div className='header'>
-                <div>
-                    <h1>Jenkins Dashboard</h1>
-                    <h2>By Ameni Elhassen & Camelia Ben Laamari</h2>
-                </div>
-                <div style={{ fontSize: "3vh" }}>Hello <strong>{user['username']}</strong>!</div>
-            </div>
-            <TileLayout
-                className="tileLayout"
-                columns={4}
-                rowHeight={255}
-                gap={{ rows: 10, columns: 10 }}
-                positions={positions}
-                items={items}
-                onReposition={handleReposition}
-            />
-        </div>
-    )
-
+    for (let i = 0; i < items.length; i++) {
+        setWidget(uid, items[i], initialPositions[i]);
+    }
 }
-
-export default Dashboard
