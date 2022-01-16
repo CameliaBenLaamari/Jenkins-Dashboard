@@ -1,7 +1,6 @@
 {
   "name": "jenkins-dashboard",
   "version": "0.1.0",
-  "proxy": "http://localhost:8080/",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.7",
