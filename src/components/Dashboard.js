@@ -16,14 +16,8 @@ function Dashboard() {
     const [jobs, setJobs] = useState({});
     const [customItems, setCustomItems] = useState([]);
     const [customPositions, setCustomPositions] = useState([]);
-    const [loading, setLoading] = useState(false);
-
-    const col = parseInt(localStorage.getItem(auth.currentUser.uid + "/col")) || 3;
-
-    const [, forceUpdate] = useReducer(x => x + 1, 0);
 
     useEffect(() => {
-        setLoading(true);
         async function getData(uid) {
             getUser(uid).then((result) => {
                 setUser(result);
@@ -112,7 +106,7 @@ function Dashboard() {
         }
     </div>;
 
-    const initialItems = [
+    var items = [
         {
             header: "Statistics",
             body: <StatsWidget />
@@ -131,7 +125,7 @@ function Dashboard() {
         }
     ];
 
-    const [items, setItems] = useState(initialItems);
+    //const [items, setItems] = useState(initialItems);
 
     const initialPositions = [
         {
@@ -158,13 +152,8 @@ function Dashboard() {
 
     const [positions, setPositions] = useState(initialPositions);
 
-    const newItems = [...initialPositions, ...customItems].concat({
-        header: "Add a widget",
-        body: <AddWidget />
-    });
-
     useEffect(() => {
-        setLoading(true);
+
         async function update(customItems, customPositions) {
 
             for (let i = 0; i < customItems.length; i++) {
@@ -173,32 +162,31 @@ function Dashboard() {
                     const repo = url.slice(19);
                     if (repo) {
                         const thumbnail = "https://gh-card.dev/repos/" + repo + ".svg";
-                        setItems(prevState => [...prevState, {
+                        items.push({
                             header: "GitHub Repo",
                             body: <a href={repo} target="_blank" rel="norefferer"><img src={thumbnail} alt="github-embed" style={{ marginTop: "3vh" }} /></a>
-                        }]);
+                        })
                     }
                 } else {
                     const thread = url.slice(23);
                     if (thread) {
                         const thumbnail = "https://www.redditmedia.com/" + thread + "?ref_source=embed&amp;ref=share&amp;embed=true";
-                        setItems(prevState => [...prevState, {
+                        items.push({
                             header: "Reddit Thread",
                             body: <iframe id="reddit-embed" src={thumbnail} sandbox="allow-scripts allow-same-origin allow-popups" style={{ border: 'none' }} height="420vh" width="550vh" scrolling="yes"></iframe>
-                        }]);
+                        })
                     }
                 }
             }
             setPositions(prevState => [...prevState, ...customPositions]);
-            forceUpdate();
         }
 
         update(customItems, customPositions);
 
-        setItems(prevState => [...prevState, {
+        items.push({
             header: "Add a widget",
             body: <AddWidget />
-        }]);
+        })
 
         setPositions(prevState => [...prevState, {
             col: 3,
@@ -206,9 +194,6 @@ function Dashboard() {
             rowSpan: 1
         }]);
 
-        if (items && positions) {
-            setLoading(false);
-        }
     }, [])
 
     const handleReposition = e => {
@@ -230,7 +215,7 @@ function Dashboard() {
                 rowHeight={255}
                 gap={{ rows: 10, columns: 10 }}
                 positions={positions}
-                items={newItems}
+                items={items}
                 onReposition={handleReposition}
             />
         </div>
