@@ -83,7 +83,7 @@ h1{
 h2{
   font-weight: 300;
   font-size: 2.2vh;
-  color: #b1b4be;
+  color: #334285c9;
   text-align: left;
 }
 
@@ -130,7 +130,7 @@ ul{
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 50%;
+  height: 40%;
   padding: 5vh;
 }
 
@@ -151,16 +151,22 @@ ul{
   color: rgba(255, 255, 255, 0.8);
   padding: 5vh;
   font-weight: 300;
+  text-align: center;
 }
 
-#dashboard, #settings{
+#dashboard, #settings, #about{
   margin-left: 15vh;
   padding: 5vh 10vh 5vh 10vh;
   background-color: #f7f9fb;
 }
 
+#settings, #about{
+  height: 90vh;
+  text-align: left;
+}
+
 p{
-  font-size: 2vh;
+  font-size: 2.3vh;
 }
 
 .widget{
@@ -186,21 +192,18 @@ h5.k-card-title{
 }
 
 .login-box{
-  margin-top: 10vh;
+  margin-top: 20vh;
   margin-left: auto;
   margin-right: auto;
-  padding: 5vh;
+  padding: 5vh 5vh 7vh 5vh;
   text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 50vh;
-  height: 39vh;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 }
 
 #login-form{
-  height: 27vh;
   margin: 0;
   display: grid;
 }
@@ -211,21 +214,18 @@ h5.k-card-title{
 }
 
 .signup-box{
-  margin-top: 10vh;
+  margin-top: 3vh;
   margin-left: auto;
   margin-right: auto;
-  padding: 5vh;
+  padding: 5vh 5vh 7vh 5vh;
   text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 50vh;
-  height: 70vh;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 }
 
 #signup-form{
-  height: 65vh;
   margin: 0;
   display: grid;
 }
@@ -243,6 +243,7 @@ h5.k-card-title{
   background-color: #77b7ff18;
   margin-top: 3vh;
   letter-spacing: 0.3vw;
+  height: 5vh;
 }
 
 .jobs{
@@ -256,7 +257,7 @@ h5.k-card-title{
 }
 
 span.k-in{
-  font-size: 2vh;
+  font-size: 2.3vh;
 }
 
 #joblist{
@@ -277,7 +278,40 @@ span.k-in{
 }
 
 #exit{
-
   border-radius: 50%;
   background-color: #2a3256;
+}
+
+.container{
+  width: 120vh;
+  display: flex;
+  align-items: center;
+}
+
+#outlined-input{
+  width: 30vh;
+}
+
+#red-button{
+  margin: 4vh 0 0 3vh;
+  letter-spacing: 0.3vw;
+  border-color: red;
+  color: red;
+  background-color: rgba(255, 0, 0, 0.05);
+  height: 5vh
+}
+
+.piecharts{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 22vh;
+}
+
+.icon-grid{
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  width: 120vh;
+  margin: 5vh 0 3vh 0;
 }

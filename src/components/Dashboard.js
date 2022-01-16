@@ -1,20 +1,29 @@
 import React, { useEffect } from 'react';
 import "@progress/kendo-theme-material/dist/all.css";
-import { Chart, ChartCategoryAxis, ChartCategoryAxisItem, ChartSeries, ChartSeriesItem } from '@progress/kendo-react-charts';
+import { Chart, ChartLegend, ChartSeries, ChartSeriesItem, ChartTitle } from '@progress/kendo-react-charts';
 import { TileLayout } from "@progress/kendo-react-layout";
 import { useState } from "react";
-import { auth, getJenkins, getUser } from '../firebase';
+import { auth, getJenkins, getUser, getCustomWidgets } from '../firebase';
 import 'hammerjs';
 import AddWidget from './AddWidget';
 import ListJobs from './ListJobs';
+import { useReducer } from 'react';
 
 function Dashboard() {
 
     const [user, setUser] = useState({});
     const [data, setData] = useState({});
     const [jobs, setJobs] = useState({});
+    const [customItems, setCustomItems] = useState([]);
+    const [customPositions, setCustomPositions] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const col = parseInt(localStorage.getItem(auth.currentUser.uid + "/col")) || 3;
+
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
 
     useEffect(() => {
+        setLoading(true);
         async function getData(uid) {
             getUser(uid).then((result) => {
                 setUser(result);
@@ -23,53 +32,27 @@ function Dashboard() {
                 setData(result['data']);
                 setJobs(result['jobs']);
             })
+            getCustomWidgets(uid).then((result) => {
+                setCustomItems(result['items']);
+                setCustomPositions(result['positions']);
+            })
         }
         getData(auth.currentUser.uid);
     }, []);
 
-    const initialPositions = [
-        {
-            col: 1,
-            colSpan: 1,
-            rowSpan: 1
-        },
-        {
-            col: 2,
-            colSpan: 3,
-            rowSpan: 2
-        },
-        {
-            col: 1,
-            colSpan: 1,
-            rowSpan: 1
-        },
-        {
-            col: 1,
-            colSpan: 2,
-            rowSpan: 2
-        },
-        {
-            col: 3,
-            colSpan: 2,
-            rowSpan: 1
-        },
-        {
-            col: 3,
-            colSpan: 1,
-            rowSpan: 1
-        }
-    ];
-
-    const [positions, setPositions] = useState(initialPositions);
+    console.log("data", data);
+    console.log("jobs", jobs);
 
     let durations = [];
     let estimatedDurations = [];
-    for (let i = 0; i < jobs.length; i++) {
-        durations.push([]);
-        estimatedDurations.push([]);
-        for (let j = 0; j < jobs[i]['builds'].length; j++) {
-            durations[i].push((jobs[i]['builds'][j]['duration']));
-            estimatedDurations[i].push((jobs[i]['builds'][j]['estimatedDuration']));
+    if (jobs) {
+        for (let i = 0; i < jobs.length; i++) {
+            durations.push([]);
+            estimatedDurations.push([]);
+            for (let j = 0; j < jobs[i]['builds'].length; j++) {
+                durations[i].push((jobs[i]['builds'][j]['duration']));
+                estimatedDurations[i].push((jobs[i]['builds'][j]['estimatedDuration']));
+            }
         }
     }
 
@@ -96,21 +79,40 @@ function Dashboard() {
 
     const jobNames = Object.keys(jobs).map(key => key = jobs[key]['displayName']);
     const builds = Object.keys(jobs).map(key => key = jobs[key]['builds']);
-    const buildStatus = builds.map(x => Object.keys(x).map(key => key = (x[key]['result'] === 'SUCCESS') ? 1 : 0));
-    console.log(buildStatus);
+    const buildStatus = builds.map(x => Object.keys(x).map(key => key = x[key]['result']))
+        .map(item =>
+            item = [{
+                "kind": "SUCCESS",
+                "share": item.filter(x => x === "SUCCESS").length / item.length
+            },
+            {
+                "kind": "FAILURE",
+                "share": item.filter(x => x === "FAILURE").length / item.length
+            }]
+        )
 
-    const DurationWidget = () => <Chart>
-        <ChartCategoryAxis>
-            <ChartCategoryAxisItem categories={jobNames} type="column"></ChartCategoryAxisItem>
-        </ChartCategoryAxis>
-        <ChartSeries>
-            {buildStatus.map((item, i) =>
-                <ChartSeriesItem key={i} data={item} name={jobNames[i]}></ChartSeriesItem>
-            )}
-        </ChartSeries>
-    </Chart>;
+    const DurationWidget = () => <div className="piecharts">
+        {
+            buildStatus.map((job, i) =>
+                <Chart style={{ height: "25vh" }}>
+                    <ChartTitle text={jobNames[i]} id="job-name" />
+                    <ChartSeries style={{ background: "none" }}>
+                        <ChartSeriesItem
+                            type="donut"
+                            data={job}
+                            categoryField="kind"
+                            field="share"
+                            background="none"
+                        >
+                        </ChartSeriesItem>
+                    </ChartSeries>
+                    <ChartLegend visible={true} />
+                </Chart>
+            )
+        }
+    </div>;
 
-    const items = [
+    const initialItems = [
         {
             header: "Statistics",
             body: <StatsWidget />
@@ -124,15 +126,90 @@ function Dashboard() {
             body: <JobsWidget />
         },
         {
-            header: "Successful builds ratio",
+            header: "Builds success rate",
             body: <DurationWidget />
-        },
-        {
-            header: "Add a widget",
-            body: <AddWidget />
         }
     ];
 
+    const [items, setItems] = useState(initialItems);
+
+    const initialPositions = [
+        {
+            col: 1,
+            colSpan: 1,
+            rowSpan: 1
+        },
+        {
+            col: 2,
+            colSpan: 3,
+            rowSpan: 2
+        },
+        {
+            col: 1,
+            colSpan: 1,
+            rowSpan: 1
+        },
+        {
+            col: 1,
+            colSpan: 2,
+            rowSpan: 1
+        }
+    ];
+
+    const [positions, setPositions] = useState(initialPositions);
+
+    const newItems = [...initialPositions, ...customItems].concat({
+        header: "Add a widget",
+        body: <AddWidget />
+    });
+
+    useEffect(() => {
+        setLoading(true);
+        async function update(customItems, customPositions) {
+
+            for (let i = 0; i < customItems.length; i++) {
+                const url = customItems[i]['body'].toString();
+                if (customItems[i]['header'] === "GitHub Repo") {
+                    const repo = url.slice(19);
+                    if (repo) {
+                        const thumbnail = "https://gh-card.dev/repos/" + repo + ".svg";
+                        setItems(prevState => [...prevState, {
+                            header: "GitHub Repo",
+                            body: <a href={repo} target="_blank" rel="norefferer"><img src={thumbnail} alt="github-embed" style={{ marginTop: "3vh" }} /></a>
+                        }]);
+                    }
+                } else {
+                    const thread = url.slice(23);
+                    if (thread) {
+                        const thumbnail = "https://www.redditmedia.com/" + thread + "?ref_source=embed&amp;ref=share&amp;embed=true";
+                        setItems(prevState => [...prevState, {
+                            header: "Reddit Thread",
+                            body: <iframe id="reddit-embed" src={thumbnail} sandbox="allow-scripts allow-same-origin allow-popups" style={{ border: 'none' }} height="420vh" width="550vh" scrolling="yes"></iframe>
+                        }]);
+                    }
+                }
+            }
+            setPositions(prevState => [...prevState, ...customPositions]);
+            forceUpdate();
+        }
+
+        update(customItems, customPositions);
+
+        setItems(prevState => [...prevState, {
+            header: "Add a widget",
+            body: <AddWidget />
+        }]);
+
+        setPositions(prevState => [...prevState, {
+            col: 3,
+            colSpan: 1,
+            rowSpan: 1
+        }]);
+
+        if (items && positions) {
+            setLoading(false);
+        }
+    }, [])
 
     const handleReposition = e => {
         setPositions(e.value);
@@ -153,12 +230,11 @@ function Dashboard() {
                 rowHeight={255}
                 gap={{ rows: 10, columns: 10 }}
                 positions={positions}
-                items={items}
+                items={newItems}
                 onReposition={handleReposition}
             />
         </div>
     )
-
 }
 
-export default Dashboard
+export default Dashboard;

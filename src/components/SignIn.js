@@ -35,6 +35,7 @@ function SignIn() {
                     id="outlined-email-input"
                     label="Email"
                     size="small"
+                    sx={{ mt: 4 }}
                     inputRef={emailRef}
                 />
                 <TextField
@@ -43,9 +44,10 @@ function SignIn() {
                     type="password"
                     autoComplete="current-password"
                     size="small"
+                    sx={{ mt: 2 }}
                     inputRef={passwordRef}
                 />
-                {error && <Alert severity="error">{error}</Alert>}
+                {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
                 <Button
                     disabled={loading}
                     type="submit"
@@ -54,8 +56,9 @@ function SignIn() {
                     id="main-button"
                     onClick={handleSubmit}
                 >Sign In</Button>
-                <p style={{ textAlign: "center" }}>Don't have an account? <a href="/signup"><strong>Create an account</strong></a></p>
+
             </FormControl>
+            <p style={{ textAlign: "center", marginTop: "2vh" }}>Don't have an account? <a href="/signup"><strong>Create an account</strong></a></p>
         </div>
     )
 

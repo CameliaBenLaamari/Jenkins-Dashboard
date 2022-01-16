@@ -49,12 +49,14 @@ function SignUp() {
                     id="outlined-username-input"
                     label="Username"
                     size="small"
+                    sx={{ mt: 2 }}
                     inputRef={usernameRef}
                 />
                 <TextField
                     id="outlined-email-input"
                     label="Email"
                     size="small"
+                    sx={{ mt: 2 }}
                     inputRef={emailRef}
                 />
                 <TextField
@@ -63,6 +65,7 @@ function SignUp() {
                     type="password"
                     autoComplete="current-password"
                     size="small"
+                    sx={{ mt: 2 }}
                     inputRef={passwordRef}
                 />
                 <TextField
@@ -71,13 +74,15 @@ function SignUp() {
                     type="password"
                     autoComplete="current-password"
                     size="small"
+                    sx={{ mt: 2 }}
                     inputRef={passwordConfirmRef}
                 />
-                <p>Type the username and password of your Jenkins account below:</p>
+                <p style={{ marginTop: "3vh" }}>Type the username and password of your Jenkins account below:</p>
                 <TextField
                     id="outlined-password-input"
                     label="Jenkins Username"
                     size="small"
+                    sx={{ mt: 2 }}
                     inputRef={jenkinsUsernameRef}
                 />
                 <TextField
@@ -86,9 +91,11 @@ function SignUp() {
                     type="password"
                     autoComplete="current-password"
                     size="small"
+                    sx={{ mt: 2 }}
                     inputRef={jenkinsPasswordRef}
                 />
-                {error && <Alert severity="error">{error}</Alert>}
+                <p>Make sure Jenkins is up and running on Tomcat Server.</p>
+                {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
                 <Button
                     type="submit"
                     disabled={loading}
@@ -97,7 +104,7 @@ function SignUp() {
                     id="main-button"
                     onClick={handleSubmit}
                 >Create an account</Button>
-                <p style={{ textAlign: "center" }}>Already have an account? <a href="/signin"><strong>Sign in</strong></a></p>
+                <p style={{ textAlign: "center", marginTop: "2vh" }}>Already have an account? <a href="/signin"><strong>Sign in</strong></a></p>
             </FormControl>
 
         </div>

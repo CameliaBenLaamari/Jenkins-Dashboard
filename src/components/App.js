@@ -8,6 +8,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useEffect, useState } from 'react';
 import Settings from './Settings';
+import About from './About';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </AuthProvider>
       </Router>

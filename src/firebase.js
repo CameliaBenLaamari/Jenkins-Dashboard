@@ -64,9 +64,9 @@ export async function getJenkins(uid) {
     }
 }
 
-export async function setWidget(uid, item, position) {
+export async function setCustomWidget(uid, item, position) {
     const docRef = doc(db, "widgets", uid);
-    const { items, positions } = await getWidgets(uid);
+    const { items, positions } = await getCustomWidgets(uid);
     items.push(item);
     positions.push(position);
     const docData = {
@@ -76,18 +76,13 @@ export async function setWidget(uid, item, position) {
     await setDoc(docRef, docData);
 }
 
-export async function getWidgets(uid) {
+export async function getCustomWidgets(uid) {
     const docRef = doc(db, "widgets", uid);
     const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-        const items = docSnap.data().items;
-        const positions = docSnap.data().positions;
-        return { items, positions };
-    } else {
-        console.log("No such document!");
-        return;
-    }
+    const items = (docSnap.exists()) ? docSnap.data().items : [];
+    const positions = (docSnap.exists()) ? docSnap.data().positions : [];
+    return { items, positions };
 }
 
 export default app;

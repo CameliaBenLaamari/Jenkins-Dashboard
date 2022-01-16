@@ -37,6 +37,7 @@ export default function AuthProvider({ children }) {
                 console.log(user);
                 setUser(user.uid, username, email, password, jenkinsUsername, jenkinsPassword);
                 fetchData(user.uid, jenkinsUsername, jenkinsPassword);
+                localStorage.setItem(user.uid + "/col", 3);
                 navigate('/home');
             })
             .catch((error) => {

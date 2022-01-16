@@ -15,8 +15,6 @@ function ListJobs() {
         getData(auth.currentUser.uid);
     }, []);
 
-    console.log(jobs);
-
     const [expand, setExpand] = React.useState({
         ids: ['Item2'],
         idField: 'text'
@@ -41,7 +39,6 @@ function ListJobs() {
         text: jobs[key]['displayName'],
         items: Object.keys(jobs[key]['builds']).map(i => i = { text: "Build n°" + (parseInt(i) + 1) })
     });
-    console.log(json);
 
     return <TreeView id="tree" data={processTreeViewItems(json, {
         select: select,
