@@ -1,17 +1,40 @@
 import '../main.css';
-import Login from './Login';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './Home';
+import SignUp from './SignUp';
+import AuthProvider from '../context/AuthContext';
+import SignIn from './SignIn';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase';
+import { useEffect, useState } from 'react';
+import Settings from './Settings';
+import About from './About';
 
 function App() {
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true)
+      }
+    })
+  }, [])
 
   return (
     <div style={{ backgroundColor: 'transparent' }}>
       <Router>
-        <Routes>
-          <Route exact path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route exact path="/" element={loggedIn ? <Home /> : <SignIn />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </AuthProvider>
       </Router>
     </div>
   );

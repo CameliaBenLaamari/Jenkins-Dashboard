@@ -83,13 +83,19 @@ h1{
 h2{
   font-weight: 300;
   font-size: 2.2vh;
-  color: #b1b4be;
+  color: #334285c9;
   text-align: left;
 }
 
 .logo{
   margin-top: 2vh;
   height: 10vh;
+}
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #sidebar{
@@ -109,7 +115,7 @@ h2{
 }
 
 .column{
-  height: 80%;
+  height: 90%;
   padding: 2vh;
   align-items: center;
   text-align: center;
@@ -124,7 +130,7 @@ ul{
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 50%;
+  height: 40%;
   padding: 5vh;
 }
 
@@ -145,12 +151,22 @@ ul{
   color: rgba(255, 255, 255, 0.8);
   padding: 5vh;
   font-weight: 300;
+  text-align: center;
 }
 
-#dashboard{
+#dashboard, #settings, #about{
   margin-left: 15vh;
   padding: 5vh 10vh 5vh 10vh;
   background-color: #f7f9fb;
+}
+
+#settings, #about{
+  height: 90vh;
+  text-align: left;
+}
+
+p{
+  font-size: 2.3vh;
 }
 
 .widget{
@@ -168,10 +184,6 @@ h5.k-card-title{
 .k-tilelayout-item.k-card.k-cursor-grab{
   border: none;
   border-radius: 1vh;
-  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
-  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px; */
   box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 }
 
@@ -179,59 +191,127 @@ h5.k-card-title{
   border-bottom: 1px solid rgba(128, 128, 128, 0.15);
 }
 
-.box{
-  margin-top: 30vh;
+.login-box{
+  margin-top: 20vh;
   margin-left: auto;
   margin-right: auto;
-  padding: 5vh;
+  padding: 5vh 5vh 7vh 5vh;
   text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 40vh;
-  height: 33vh;
+  width: 50vh;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 }
 
-.MuiInputLabel-root
-.MuiInputLabel-formControl
-.MuiInputLabel-animated
-.MuiInputLabel-outlined
-.MuiFormLabel-rootMuiFormLabel-colorPrimary
-.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
-  font-family: 'TT Commons', sans-serif;
+#login-form{
+  margin: 0;
+  display: grid;
 }
 
-.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
-  font-family: 'TT Commons', sans-serif;
-}
-
-.jobs{
-  overflow-y: scroll;
-  height: 55vh;
-  margin: auto;
-  padding: 2vh;
-  width: 35vw;
-  text-align: left;
-}
-
-.builds{
-  overflow-y: scroll;
-  height: 20vh;
-  padding: 2vh;
-  width: 32vw;
-  text-align: left;
-  justify-content: flex-start;
-  font-weight: 300;
+#login-form p{
+  margin-top: 2vh;
   margin-bottom: 2vh;
 }
 
-.job-name{
+.signup-box{
+  margin-top: 3vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5vh 5vh 7vh 5vh;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  width: 50vh;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+
+#signup-form{
+  margin: 0;
+  display: grid;
+}
+
+.signup-box h1{
+  margin-bottom: 4vh;
+}
+
+#signup-form p{
+  margin-top: 2vh;
+}
+
+#main-button{
+  border-color: #4361ee;
+  background-color: #77b7ff18;
+  margin-top: 3vh;
+  letter-spacing: 0.3vw;
+  height: 5vh;
+}
+
+.jobs{
+  text-align: left;
+  padding: 2vh;
+}
+
+.builds{
+  text-align: left;
+  margin-bottom: 2vh;
+}
+
+span.k-in{
+  font-size: 2.3vh;
+}
+
+#joblist{
+  overflow-y: scroll;
+  max-height: 20vh;
+}
+
+#job-name{
   text-decoration: none; 
   font-size: 3vh;
   font-weight: 500;
   color: #573bff;
+}
+
+#icon{
+  height: 8.5vh;
+  border-radius: 50%;
+}
+
+#exit{
+  border-radius: 50%;
+  background-color: #2a3256;
+}
+
+.container{
+  width: 120vh;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+}
+
+#outlined-input{
+  width: 30vh;
+}
+
+#red-button{
+  margin: 4vh 0 0 3vh;
+  letter-spacing: 0.3vw;
+  border-color: red;
+  color: red;
+  background-color: rgba(255, 0, 0, 0.05);
+  height: 5vh
+}
+
+.piecharts{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 22vh;
+}
+
+.icon-grid{
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  width: 120vh;
+  margin: 5vh 0 3vh 0;
 }
