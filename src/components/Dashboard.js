@@ -7,15 +7,14 @@ import { auth, getJenkins, getUser, getCustomWidgets } from '../firebase';
 import 'hammerjs';
 import AddWidget from './AddWidget';
 import ListJobs from './ListJobs';
-import { useReducer } from 'react';
 
 function Dashboard() {
 
     const [user, setUser] = useState({});
     const [data, setData] = useState({});
     const [jobs, setJobs] = useState({});
-    /*const [customItems, setCustomItems] = useState([]);
-    const [customPositions, setCustomPositions] = useState([]);*/
+    const [customItems, setCustomItems] = useState([]);
+    const [customPositions, setCustomPositions] = useState([]);
 
     useEffect(() => {
         async function getData(uid) {
@@ -26,10 +25,10 @@ function Dashboard() {
                 setData(result['data']);
                 setJobs(result['jobs']);
             })
-            /*getCustomWidgets(uid).then((result) => {
+            getCustomWidgets(uid).then((result) => {
                 setCustomItems(result['items']);
                 setCustomPositions(result['positions']);
-            })*/
+            })
         }
         getData(auth.currentUser.uid);
     }, []);
@@ -122,37 +121,6 @@ function Dashboard() {
         {
             header: "Builds success rate",
             body: <DurationWidget />
-        },
-        {
-            header: "GitHub Repo",
-            body: <a href="https://github.com/PipelineAI/pipeline" target="_blank" rel="norefferer"><img src="https://gh-card.dev/repos/PipelineAI/pipeline.svg" alt="github-embed" style={{ marginTop: "3vh" }} /></a>
-        },
-        {
-            header: "Reddit Thread",
-            body: <iframe id="reddit-embed" src="https://www.redditmedia.com/r/devops/comments/nqjbse/how_to_perform_cicd_in_mobile_development/?ref_source=embed&amp;ref=share&amp;embed=true" sandbox="allow-scripts allow-same-origin allow-popups" style={{ border: 'none' }} height="420vh" width="550vh" scrolling="yes"></iframe>
-        }
-    ];
-
-    var items2 = [
-        {
-            header: "Statistics",
-            body: <StatsWidget />
-        },
-        {
-            header: "Builds duration (ms)",
-            body: <BuildsWidget />
-        },
-        {
-            header: "Jobs",
-            body: <JobsWidget />
-        },
-        {
-            header: "Builds success rate",
-            body: <DurationWidget />
-        },
-        {
-            header: "Add a widget",
-            body: <AddWidget />
         }
     ];
 
@@ -178,58 +146,14 @@ function Dashboard() {
             col: 1,
             colSpan: 2,
             rowSpan: 1
-        },
-        {
-            col: 3,
-            colSpan: 2,
-            rowSpan: 1
-        },
-        {
-            col: 1,
-            colSpan: 2,
-            rowSpan: 2
-        },
-        {
-            col: 3,
-            colSpan: 1,
-            rowSpan: 1
         }
     ];
 
-    const initialPositions2 = [
-        {
-            col: 1,
-            colSpan: 1,
-            rowSpan: 1
-        },
-        {
-            col: 2,
-            colSpan: 3,
-            rowSpan: 2
-        },
-        {
-            col: 1,
-            colSpan: 1,
-            rowSpan: 1
-        },
-        {
-            col: 1,
-            colSpan: 2,
-            rowSpan: 1
-        },
-        {
-            col: 3,
-            colSpan: 1,
-            rowSpan: 1
-        }
-    ];
+    const [positions, setPositions] = useState(initialPositions);
 
-    const [positions, setPositions] = useState((auth.currentUser.uid === "THxDQIjeiAPOMYby4SUZjS6jDKF2") ? initialPositions : initialPositions2);
+    useEffect(() => {
 
-    /*useEffect(() => {
-
-        async function update(customItems, customPositions) {
-
+        if (customItems) {
             for (let i = 0; i < customItems.length; i++) {
                 const url = customItems[i]['body'].toString();
                 if (customItems[i]['header'] === "GitHub Repo") {
@@ -251,11 +175,9 @@ function Dashboard() {
                         })
                     }
                 }
+                setPositions(prevState => [...prevState, customPositions[i]]);
             }
-            setPositions(prevState => [...prevState, ...customPositions]);
         }
-
-        update(customItems, customPositions);
 
         setPositions(prevState => [...prevState, {
             col: 3,
@@ -263,7 +185,13 @@ function Dashboard() {
             rowSpan: 1
         }]);
 
-    }, [])*/
+    }, [])
+
+    useEffect(() => {
+        console.log("items", items);
+        console.log("positions", positions);
+    }, [items, positions])
+
 
     items.push({
         header: "Add a widget",
@@ -289,7 +217,7 @@ function Dashboard() {
                 rowHeight={255}
                 gap={{ rows: 10, columns: 10 }}
                 positions={positions}
-                items={(auth.currentUser.uid === "THxDQIjeiAPOMYby4SUZjS6jDKF2") ? items : items2}
+                items={items}
                 onReposition={handleReposition}
             />
         </div>
